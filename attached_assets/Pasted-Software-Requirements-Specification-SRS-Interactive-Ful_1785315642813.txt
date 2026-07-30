@@ -1,0 +1,656 @@
+Software Requirements Specification (SRS)
+Interactive Full-Stack Portfolio Website
+
+Project Name: Aniket Portfolio Platform
+
+Version: 2.0
+
+Author: Aniket Paswan
+
+Date: 29 July 2026
+
+1. Project Overview
+1.1 Purpose
+
+Develop a production-grade, full-stack portfolio platform that showcases technical expertise through an immersive user experience while demonstrating backend engineering skills.
+
+The application shall provide:
+
+Interactive frontend
+Secure backend APIs
+Analytics system
+AI assistant
+Contact management
+Resume management
+Project CMS
+Blog system
+Admin dashboard
+
+The portfolio itself should serve as a demonstration of modern software engineering practices.
+
+2. Objectives
+
+The platform shall:
+
+Create a memorable first impression.
+Demonstrate backend architecture.
+Showcase projects interactively.
+Collect recruiter enquiries.
+Track visitor analytics.
+Provide an admin panel for content management.
+Support future scalability.
+3. User Roles
+Visitor
+Browse portfolio
+View projects
+Download resume
+Contact developer
+Chat with AI assistant
+Read blogs
+Administrator
+Login securely
+Manage projects
+Manage blogs
+View analytics
+Upload resume
+Manage messages
+Configure portfolio settings
+4. Functional Requirements
+Module 1 — Landing Experience
+Features
+Animated loading screen
+Terminal boot animation
+Floating particles
+Dynamic gradient background
+Interactive 3D server illustration
+Smooth page transitions
+
+Loading sequence
+
+Initializing Portfolio...
+
+Loading Components...
+
+Connecting Backend...
+
+Rendering Experience...
+
+Ready.
+Module 2 — Hero Section
+
+Displays
+
+Name
+Title
+Description
+CTA buttons
+
+Buttons
+
+View Projects
+Download Resume
+Contact Me
+GitHub
+LinkedIn
+
+Backend integration
+
+Download Resume button requests
+
+GET /api/resume/latest
+
+Backend logs
+
+Download timestamp
+Browser
+Device
+Country
+Referral source
+Module 3 — About Section
+
+Displays
+
+Biography
+Education
+Experience
+Career goals
+Current availability
+
+Content shall be retrieved dynamically from backend.
+
+Module 4 — Skills
+
+Interactive technology cloud.
+
+Hovering over a skill displays
+
+Experience
+Projects using it
+Years of usage
+Related technologies
+
+Data loaded via API.
+
+Module 5 — Projects
+
+Projects retrieved dynamically.
+
+Each project includes
+
+Title
+Description
+Cover image
+Technologies
+Architecture diagram
+GitHub
+Live demo
+Case study
+Metrics
+
+Animations
+
+Card tilt
+Glow
+Scale
+Smooth transitions
+
+API
+
+GET /api/projects
+
+GET /api/projects/{slug}
+Module 6 — Project Case Study
+
+Each project has a dedicated page.
+
+Sections
+
+Problem Statement
+Solution
+Architecture
+Screenshots
+Technologies
+Challenges
+Optimisations
+Performance
+Lessons Learned
+
+Visitors may bookmark projects.
+
+Module 7 — Resume Management
+
+Administrator can
+
+Upload resume
+Replace resume
+Maintain multiple versions
+
+Visitors always receive the latest active version.
+
+API
+
+GET /api/resume/latest
+
+POST /api/admin/resume
+
+DELETE /api/admin/resume
+
+Every download shall be logged.
+
+Collected fields
+
+IP
+Country
+Device
+Browser
+Download time
+Resume version
+Module 8 — Contact System
+
+Visitors submit
+
+Name
+Email
+Company
+Subject
+Message
+
+Backend validates
+
+Email
+Spam
+Rate limits
+
+After successful submission
+
+Save message
+Send confirmation email
+Notify administrator
+
+API
+
+POST /api/contact
+
+Admin may
+
+Reply
+Archive
+Mark as read
+Delete
+Module 9 — AI Assistant
+
+Users may ask
+
+Tell me about your projects.
+Explain your API Security Platform.
+Show backend experience.
+Download resume.
+Contact Aniket.
+
+Pipeline
+
+User Question
+
+↓
+
+Knowledge Retrieval
+
+↓
+
+LLM
+
+↓
+
+Generated Response
+
+API
+
+POST /api/chat
+
+Knowledge base
+
+Projects
+Blogs
+Resume
+Skills
+Experience
+Module 10 — Blog
+
+Administrator may
+
+Create blog
+Publish
+Draft
+Delete
+Edit
+
+Supports
+
+Markdown
+Images
+Syntax highlighting
+Tags
+Search
+
+APIs
+
+GET /api/blogs
+
+GET /api/blogs/{slug}
+
+POST /api/admin/blog
+
+PATCH /api/admin/blog
+Module 11 — Analytics
+
+Backend records
+
+Page views
+Session duration
+Scroll depth
+Resume downloads
+Project clicks
+Contact submissions
+AI usage
+Device information
+Browser
+Country
+Referrer
+
+APIs
+
+POST /api/analytics/event
+
+GET /api/admin/analytics
+Module 12 — GitHub Integration
+
+Automatically synchronise
+
+Latest repositories
+Stars
+Followers
+Languages
+Contribution count
+
+Refresh
+
+Every 24 hours.
+
+Module 13 — Admin Dashboard
+
+Administrator dashboard displays
+
+Overview
+Total visitors
+Visitors today
+Returning visitors
+Bounce rate
+Average session
+Resume downloads
+Projects
+
+Create
+
+Update
+
+Delete
+
+Archive
+
+Reorder
+
+Contact
+
+Inbox
+
+Search
+
+Reply
+
+Archive
+
+Delete
+
+Resume
+
+Upload
+
+Activate
+
+Delete
+
+Download statistics
+
+Blog
+
+Create
+
+Edit
+
+Publish
+
+Delete
+
+Draft
+
+Analytics
+
+Visitor map
+
+Traffic sources
+
+Most viewed projects
+
+Popular technologies
+
+Daily visits
+
+Weekly visits
+
+Monthly visits
+
+Module 14 — Interactive Terminal
+
+Visitors may execute commands.
+
+Supported commands
+
+help
+about
+skills
+projects
+resume
+contact
+github
+linkedin
+clear
+
+Terminal responses retrieved dynamically.
+
+Module 15 — Search
+
+Global search.
+
+Searches
+
+Projects
+Blogs
+Skills
+
+API
+
+GET /api/search?q=
+Module 16 — Newsletter
+
+Visitors subscribe.
+
+API
+
+POST /api/newsletter
+
+Administrator exports subscribers.
+
+Module 17 — Visitor Profile
+
+Anonymous visitor session.
+
+Backend stores
+
+Session ID
+Device
+Browser
+Country
+Visit history
+Returning visitor status
+5. Backend Architecture
+
+Framework
+
+FastAPI
+
+Database
+
+PostgreSQL
+
+Cache
+
+Redis
+
+ORM
+
+SQLAlchemy
+
+Migration
+
+Alembic
+
+Authentication
+
+JWT
+
+Refresh Tokens
+
+Password hashing
+
+Background Tasks
+
+FastAPI BackgroundTasks (or Celery if the workload grows)
+
+File Storage
+
+Cloudinary or Azure Blob Storage
+
+6. Database Design
+
+Tables
+
+users
+
+projects
+
+project_images
+
+project_metrics
+
+blogs
+
+blog_tags
+
+contacts
+
+contact_replies
+
+resume_versions
+
+resume_downloads
+
+analytics_events
+
+visitor_sessions
+
+newsletter_subscribers
+
+chat_history
+
+settings
+
+activity_logs
+
+github_cache
+7. API Specification
+Authentication
+POST /api/admin/login
+
+POST /api/admin/logout
+
+POST /api/admin/refresh
+Projects
+GET /api/projects
+
+GET /api/projects/{slug}
+
+POST /api/admin/projects
+
+PATCH /api/admin/projects/{id}
+
+DELETE /api/admin/projects/{id}
+Resume
+GET /api/resume/latest
+
+POST /api/admin/resume
+
+DELETE /api/admin/resume/{id}
+Contact
+POST /api/contact
+
+GET /api/admin/messages
+
+PATCH /api/admin/messages/{id}
+AI
+POST /api/chat
+Blog
+GET /api/blogs
+
+GET /api/blog/{slug}
+
+POST /api/admin/blog
+
+PATCH /api/admin/blog/{id}
+
+DELETE /api/admin/blog/{id}
+Analytics
+POST /api/analytics/event
+
+GET /api/admin/analytics
+GitHub
+GET /api/github/profile
+
+GET /api/github/repos
+8. Security Requirements
+JWT authentication
+HTTP-only cookies
+CSRF protection
+CORS policy
+Input validation
+SQL injection protection
+XSS protection
+Content Security Policy (CSP)
+API rate limiting
+Spam protection on contact form
+Secure file upload validation
+Audit logging for all admin actions
+9. Non-Functional Requirements
+Performance
+First Contentful Paint < 1.8 seconds
+Largest Contentful Paint < 2.5 seconds
+Time to Interactive < 3 seconds
+60 FPS animations on desktop
+Lighthouse Performance ≥ 95
+Lighthouse Accessibility ≥ 95
+Lighthouse Best Practices ≥ 95
+Lighthouse SEO = 100
+Scalability
+Stateless backend services
+Redis-backed caching
+Horizontal scaling support
+Background task processing for long-running jobs
+Compatibility
+Chrome
+Firefox
+Edge
+Safari
+Mobile browsers
+Accessibility
+Keyboard navigation
+Screen reader support
+Reduced motion mode
+WCAG 2.2 AA compliance
+10. Recommended Technology Stack
+Frontend
+React
+TypeScript
+Vite
+Tailwind CSS
+Framer Motion
+GSAP
+React Three Fiber
+Drei
+Lenis
+React Query
+Backend
+FastAPI
+SQLAlchemy
+PostgreSQL
+Redis
+Alembic
+Pydantic
+FastAPI BackgroundTasks
+JWT Authentication
+Infrastructure
+Frontend: Vercel
+Backend: Azure App Service or Render
+Database: Neon PostgreSQL
+Cache: Upstash Redis
+Object Storage: Cloudinary or Azure Blob Storage
+CDN & Security: Cloudflare
+CI/CD: GitHub Actions

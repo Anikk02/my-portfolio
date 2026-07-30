@@ -3,20 +3,35 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Aniket Portfolio API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: projects
+    description: Portfolio projects
+  - name: blogs
+    description: Blog posts
+  - name: contact
+    description: Contact form
+  - name: resume
+    description: Resume management
+  - name: github
+    description: GitHub integration
+  - name: search
+    description: Global search
+  - name: newsletter
+    description: Newsletter subscriptions
+  - name: analytics
+    description: Analytics events
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +39,217 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [projects]
+      summary: List all projects
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /projects/featured:
+    get:
+      operationId: listFeaturedProjects
+      tags: [projects]
+      summary: List featured projects
+      responses:
+        "200":
+          description: Featured projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /projects/{slug}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get project by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+
+  /blogs:
+    get:
+      operationId: listBlogs
+      tags: [blogs]
+      summary: List all published blogs
+      responses:
+        "200":
+          description: List of blogs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Blog"
+
+  /blogs/{slug}:
+    get:
+      operationId: getBlog
+      tags: [blogs]
+      summary: Get blog post by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+        "404":
+          description: Not found
+
+  /contact:
+    post:
+      operationId: submitContact
+      tags: [contact]
+      summary: Submit contact form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "200":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactResult"
+        "400":
+          description: Validation error
+        "429":
+          description: Rate limited
+
+  /resume/latest:
+    get:
+      operationId: getLatestResume
+      tags: [resume]
+      summary: Get latest resume info and download URL
+      responses:
+        "200":
+          description: Resume info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+
+  /github/profile:
+    get:
+      operationId: getGithubProfile
+      tags: [github]
+      summary: Get GitHub profile stats
+      responses:
+        "200":
+          description: GitHub profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GithubProfile"
+
+  /github/repos:
+    get:
+      operationId: listGithubRepos
+      tags: [github]
+      summary: List GitHub repositories
+      responses:
+        "200":
+          description: Repos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GithubRepo"
+
+  /search:
+    get:
+      operationId: globalSearch
+      tags: [search]
+      summary: Global search across projects, blogs, skills
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResults"
+
+  /newsletter:
+    post:
+      operationId: subscribeNewsletter
+      tags: [newsletter]
+      summary: Subscribe to newsletter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewsletterInput"
+      responses:
+        "200":
+          description: Subscribed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsletterResult"
+        "400":
+          description: Invalid email
+
+  /analytics/event:
+    post:
+      operationId: trackEvent
+      tags: [analytics]
+      summary: Track analytics event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyticsEventInput"
+      responses:
+        "200":
+          description: Event tracked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsEventResult"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +260,218 @@ components:
       required:
         - status
 
+    Project:
+      type: object
+      required: [id, slug, title, description, technologies, featured, order]
+      properties:
+        id:
+          type: number
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        longDescription:
+          type: ["string", "null"]
+        coverImage:
+          type: ["string", "null"]
+        technologies:
+          type: array
+          items:
+            type: string
+        githubUrl:
+          type: ["string", "null"]
+        liveUrl:
+          type: ["string", "null"]
+        featured:
+          type: boolean
+        order:
+          type: number
+        status:
+          type: string
+        category:
+          type: ["string", "null"]
+        metrics:
+          type: ["string", "null"]
+        problemStatement:
+          type: ["string", "null"]
+        solution:
+          type: ["string", "null"]
+        lessonsLearned:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    Blog:
+      type: object
+      required: [id, slug, title, summary, published, createdAt]
+      properties:
+        id:
+          type: number
+        slug:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+        content:
+          type: ["string", "null"]
+        coverImage:
+          type: ["string", "null"]
+        tags:
+          type: array
+          items:
+            type: string
+        published:
+          type: boolean
+        readingTime:
+          type: ["number", "null"]
+        createdAt:
+          type: string
+
+    ContactInput:
+      type: object
+      required: [name, email, subject, message]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          
+        company:
+          type: string
+        subject:
+          type: string
+          minLength: 1
+        message:
+          type: string
+          minLength: 10
+
+    ContactResult:
+      type: object
+      required: [success, message]
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    Resume:
+      type: object
+      required: [id, fileName, version, downloadUrl, createdAt]
+      properties:
+        id:
+          type: number
+        fileName:
+          type: string
+        version:
+          type: string
+        downloadUrl:
+          type: string
+        createdAt:
+          type: string
+
+    GithubProfile:
+      type: object
+      required: [username, bio, publicRepos, followers, following, avatarUrl]
+      properties:
+        username:
+          type: string
+        bio:
+          type: ["string", "null"]
+        publicRepos:
+          type: number
+        followers:
+          type: number
+        following:
+          type: number
+        avatarUrl:
+          type: string
+        htmlUrl:
+          type: string
+        totalStars:
+          type: number
+        totalCommits:
+          type: number
+        topLanguages:
+          type: array
+          items:
+            type: string
+
+    GithubRepo:
+      type: object
+      required: [name, description, url, stars, language]
+      properties:
+        name:
+          type: string
+        description:
+          type: ["string", "null"]
+        url:
+          type: string
+        stars:
+          type: number
+        forks:
+          type: number
+        language:
+          type: ["string", "null"]
+        topics:
+          type: array
+          items:
+            type: string
+
+    SearchResults:
+      type: object
+      required: [projects, blogs, skills]
+      properties:
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        blogs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Blog"
+        skills:
+          type: array
+          items:
+            type: string
+
+    NewsletterInput:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          
+        name:
+          type: string
+
+    NewsletterResult:
+      type: object
+      required: [success, message]
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    AnalyticsEventInput:
+      type: object
+      required: [event, page]
+      properties:
+        event:
+          type: string
+        page:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+
+    AnalyticsEventResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
