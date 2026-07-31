@@ -1,0 +1,3 @@
+- [Backend architecture](backend-architecture.md) — FastAPI (Python) in backend/, React+Vite in frontend/; artifacts/ are thin config wrappers only
+- [Python env](python-env.md) — packages installed via installLanguagePackages(), land in .pythonlibs/; use full path /home/runner/workspace/.pythonlibs/bin/uvicorn in workflow commands
+- [SQLAlchemy reserved names](sqlalchemy-reserved.md) — "metadata" is reserved in DeclarativeBase; use a different attribute name and map to the real column name explicitly
