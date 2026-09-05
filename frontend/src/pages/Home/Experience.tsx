@@ -3,27 +3,27 @@ import { motion } from "framer-motion";
 const EXPERIENCES = [
   {
     id: 1,
-    role: "Backend Developer Intern",
-    company: "TechNova Solutions",
-    period: "Jun 2023 - Present",
-    description: "Architecting microservices for real-time data processing. Reduced database query latency by 40% through index optimization and Redis caching.",
-    skills: ["Python", "FastAPI", "PostgreSQL", "Redis", "Docker"]
+    role: "B.Tech in Computer Science & Engineering",
+    company: "Dr. A.P.J. Kalam Technical University, Uttar Pradesh, India",
+    period: "GPA: 7.79",
+    description: "Building a strong foundation across data structures and algorithms, computer networks, operating systems, database management systems, and object-oriented programming.",
+    skills: ["Data Structures & Algorithms", "Computer Networks", "Operating Systems", "DBMS", "OOP"]
   },
   {
     id: 2,
-    role: "Open Source Contributor",
-    company: "Various Projects",
-    period: "Jan 2023 - Present",
-    description: "Contributing to Python backend libraries, fixing bugs, and improving test coverage. Authored several accepted PRs in major repositories.",
-    skills: ["Python", "Git", "Pytest", "CI/CD"]
+    role: "Backend Systems Builder",
+    company: "Independent Project Work",
+    period: "2026 — Present",
+    description: "Designing modular backend solutions with FastAPI, REST APIs, JWT authentication, SQLAlchemy, asynchronous programming, caching, and WebSockets.",
+    skills: ["Python", "FastAPI", "REST APIs", "JWT", "SQLAlchemy"]
   },
   {
     id: 3,
-    role: "B.Tech Computer Science",
-    company: "University of Technology",
-    period: "2020 - 2024",
-    description: "Focused on Data Structures, Algorithms, Database Management Systems, and Operating Systems. Lead developer for the university's technical club.",
-    skills: ["C++", "Java", "SQL", "System Design"]
+    role: "AI & NLP Project Work",
+    company: "Mental Health Support Chatbot",
+    period: "Sep 2025 — Dec 2025",
+    description: "Developed a context-aware chatbot with a fine-tuned T5 Transformer, semantic retrieval, and safety-aware response generation using sentiment analysis.",
+    skills: ["PyTorch", "Hugging Face", "Sentence Transformers", "NLP", "MongoDB"]
   }
 ];
 
@@ -38,7 +38,7 @@ export function Experience() {
       >
         <div className="font-mono text-cyan-400 mb-2">// EXPERIENCE</div>
         <h2 className="text-3xl md:text-4xl font-bold">
-          My <span className="gradient-text">Journey</span>
+          Education & <span className="gradient-text">Project Focus</span>
         </h2>
       </motion.div>
 
@@ -91,6 +91,42 @@ export function Experience() {
           ))}
         </div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-20"
+      >
+        <div className="font-mono text-cyan-400 mb-2">// CERTIFICATIONS</div>
+        <h3 className="text-2xl md:text-3xl font-bold mb-6">
+          Continuous <span className="gradient-text">Learning</span>
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            {
+              title: "Python Programming Certification",
+              detail: "Data structures and algorithmic problem-solving",
+            },
+            {
+              title: "Generative AI Essentials",
+              detail: "TCS iON",
+            },
+            {
+              title: "SQL (Basics)",
+              detail: "HackerRank",
+            },
+          ].map((cert) => (
+            <div
+              key={cert.title}
+              className="rounded-xl border border-white/10 bg-card/60 p-5 hover:border-primary/30 transition-colors"
+            >
+              <h4 className="font-semibold text-white">{cert.title}</h4>
+              <p className="text-sm text-muted-foreground mt-2">{cert.detail}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

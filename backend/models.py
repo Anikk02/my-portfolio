@@ -1,6 +1,6 @@
 from datetime import datetime
-from sqlalchemy import String, Integer, Boolean, Text, TIMESTAMP, JSON
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import String, Integer, Boolean, Text, TIMESTAMP
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from database import Base
 
@@ -82,7 +82,7 @@ class AnalyticsEvent(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     event: Mapped[str] = mapped_column(Text, nullable=False)
     page: Mapped[str] = mapped_column(Text, nullable=False)
-    event_metadata: Mapped[dict | None] = mapped_column("metadata", JSON)
+    event_metadata: Mapped[dict | None] = mapped_column("metadata", JSONB)
     ip: Mapped[str | None] = mapped_column(Text)
     user_agent: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(TIMESTAMP, default=datetime.utcnow)

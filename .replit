@@ -4,10 +4,6 @@ modules = ["nodejs-24", "postgresql-16", "python-base-3.13"]
 router = "application"
 deploymentTarget = "autoscale"
 
-[deployment.postBuild]
-args = ["pnpm", "store", "prune"]
-env = { "CI" = "true" }
-
 [workflows]
 runButton = "Project"
 
@@ -21,4 +17,4 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
-packages = ["libxcrypt"]
+packages = ["freetype", "gumbo", "harfbuzz", "jbig2dec", "libjpeg_turbo", "libxcrypt", "mupdf", "openjpeg", "swig", "xcbuild"]

@@ -1,12 +1,20 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { useListBlogs } from "@workspace/api-client-react";
+import {
+  getListBlogsQueryKey,
+  useListBlogs,
+} from "@workspace/api-client-react";
+import type { Blog } from "@workspace/api-client-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, Calendar, ArrowRight } from "lucide-react";
 import { format } from "date-fns";
+import { normalizeList } from "@/lib/normalize-list";
 
 export function Blog() {
-  const { data: blogs = [], isLoading } = useListBlogs({ query: { enabled: true } });
+  const { data: blogs = [], isLoading } = useListBlogs({
+    query: { enabled: true, queryKey: getListBlogsQueryKey() },
+  });
+  const blogList = normalizeList<Blog>(blogs, "blogs");
 
   return (
     <section id="blog" className="scroll-mt-24">
@@ -30,9 +38,9 @@ export function Blog() {
             <div key={i} className="h-80 bg-[#111827] rounded-xl animate-pulse border border-white/5" />
           ))}
         </div>
-      ) : blogs.length > 0 ? (
+      ) : blogList.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.slice(0, 3).map((blog, idx) => (
+          {blogList.slice(0, 3).map((blog, idx) => (
             <BlogCard key={blog.id} blog={blog} delay={idx * 0.1} />
           ))}
         </div>

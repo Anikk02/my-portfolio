@@ -5,7 +5,8 @@ import { Menu, X, Search, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { useGlobalSearch } from "@workspace/api-client-react";
+import { getGlobalSearchQueryKey, useGlobalSearch } from "@workspace/api-client-react";
+import type { Blog, Project } from "@workspace/api-client-react";
 import { useDebounce } from "@/hooks/use-debounce";
 
 const NAV_LINKS = [
@@ -28,7 +29,12 @@ export function Navbar() {
 
   const { data: searchResults, isFetching } = useGlobalSearch(
     { q: debouncedQuery },
-    { query: { enabled: debouncedQuery.length > 1 } }
+    {
+      query: {
+        enabled: debouncedQuery.length > 1,
+        queryKey: getGlobalSearchQueryKey({ q: debouncedQuery }),
+      },
+    }
   );
 
   useEffect(() => {
@@ -191,7 +197,7 @@ export function Navbar() {
                     {searchResults.projects?.length > 0 && (
                       <div className="mb-4">
                         <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-2">Projects</h4>
-                        {searchResults.projects.map(p => (
+                        {searchResults.projects.map((p: Project) => (
                           <button
                             key={p.id}
                             onClick={() => handleNavClick(`/projects/${p.slug}`)}
@@ -208,7 +214,7 @@ export function Navbar() {
                     {searchResults.blogs?.length > 0 && (
                       <div className="mb-4">
                         <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-2">Articles</h4>
-                        {searchResults.blogs.map(b => (
+                        {searchResults.blogs.map((b: Blog) => (
                           <button
                             key={b.id}
                             onClick={() => handleNavClick(`/blog/${b.slug}`)}
@@ -226,7 +232,7 @@ export function Navbar() {
                       <div>
                         <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-2">Skills Found</h4>
                         <div className="flex flex-wrap gap-2 px-2 pb-4">
-                          {searchResults.skills.map(s => (
+                          {searchResults.skills.map((s: string) => (
                             <span key={s} className="bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded text-xs font-mono">
                               {s}
                             </span>

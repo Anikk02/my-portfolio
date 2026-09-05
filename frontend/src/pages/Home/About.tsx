@@ -1,10 +1,15 @@
 import { motion } from "framer-motion";
 import { Terminal, Database, Shield, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { useGetGithubProfile } from "@workspace/api-client-react";
+import {
+  getGetGithubProfileQueryKey,
+  useGetGithubProfile,
+} from "@workspace/api-client-react";
 
 export function About() {
-  const { data: githubProfile } = useGetGithubProfile({ query: { enabled: true } });
+  const { data: githubProfile } = useGetGithubProfile({
+    query: { enabled: true, queryKey: getGetGithubProfileQueryKey() },
+  });
 
   return (
     <section id="about" className="scroll-mt-24">
@@ -30,10 +35,10 @@ export function About() {
         >
           <div className="text-muted-foreground text-lg leading-relaxed space-y-4">
             <p>
-              I am a Backend Engineer deeply passionate about system design, microservices, and crafting scalable infrastructure. What started as writing simple scripts has evolved into a career of building systems that handle high traffic with grace.
+              I am a Computer Science undergraduate with practical experience in backend development, REST API design, API security, and authentication systems.
             </p>
             <p>
-              My expertise lies in architecting APIs, optimizing databases, and deploying containerized applications. I believe that good backend code should be invisible to the user but bulletproof for the business.
+              I enjoy designing modular backend solutions, implementing secure authentication workflows, and developing reliable APIs. I am especially interested in building secure, high-performance software applications.
             </p>
           </div>
 
@@ -65,9 +70,9 @@ export function About() {
                 )}
               </div>
               <div className="p-6 space-y-4">
-                <StatRow label="Location" value="India" />
-                <StatRow label="Education" value="B.Tech CSE" />
-                <StatRow label="Experience" value="Intern / Builder" />
+                <StatRow label="Location" value="Uttar Pradesh, India" />
+                <StatRow label="Education" value="B.Tech CSE · GPA 7.79" />
+                <StatRow label="Focus" value="Backend & API Security" />
                 <StatRow label="Availability" value="Open to Work" highlight />
               </div>
             </CardContent>

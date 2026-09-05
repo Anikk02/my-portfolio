@@ -11,10 +11,10 @@ paths = [ "/" ]
 localPort = 21113
 
 [services.development]
-run = "pnpm --filter @workspace/frontend run dev"
+run = "npm --prefix /home/runner/workspace/frontend run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/frontend", "run", "build" ]
+build = [ "npm", "--prefix", "/home/runner/workspace/frontend", "run", "build" ]
 serve = "static"
 publicDir = "frontend/dist/public"
 

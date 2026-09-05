@@ -38,7 +38,7 @@ def seed():
                     "and API key management."
                 ),
                 technologies=["FastAPI", "Python", "Redis", "PostgreSQL", "SQLAlchemy", "React.js", "REST APIs"],
-                github_url="https://github.com/anikk0208/api-security-middleware",
+                github_url="https://github.com/Anikk02/api-security-system",
                 featured=True,
                 order=1,
                 status="active",
@@ -61,7 +61,7 @@ def seed():
             ),
             Project(
                 slug="fastapi-auth-system",
-                title="FastAPI Authentication System",
+                title="Authentication System",
                 description="High-performance, modular authentication system with JWT, Redis caching, role-based authorization, email verification, and token refresh — built with REST API best practices.",
                 long_description=(
                     "Designed modular authentication architecture with role-based authorization, secure password "
@@ -71,11 +71,11 @@ def seed():
                     "load testing using Locust."
                 ),
                 technologies=["FastAPI", "PostgreSQL", "Redis", "JWT", "SQLAlchemy", "Locust", "Python"],
-                github_url="https://github.com/anikk0208/fastapi-auth-system",
+                github_url="https://github.com/Anikk02/FastAPI-Authentication-System",
                 featured=True,
                 order=2,
                 status="completed",
-                category="Backend / Auth",
+                category="Backend / Authentication",
                 metrics="~800 concurrent users • 3× DB load reduction via Redis • JWT + refresh token flow",
                 problem_statement=(
                     "Most auth tutorials produce tightly coupled, hard-to-extend monoliths with no caching, "
@@ -103,7 +103,7 @@ def seed():
                     "preprocessing and embedding generation for model training."
                 ),
                 technologies=["PyTorch", "Hugging Face", "Sentence Transformers", "NLP", "MongoDB", "NumPy", "Python"],
-                github_url="https://github.com/anikk0208/mental-health-chatbot",
+                github_url="https://github.com/Anikk02/Mental-Health-Support-Chatbot",
                 featured=True,
                 order=3,
                 status="completed",
@@ -124,6 +124,48 @@ def seed():
                     "prompt-level guardrails alone."
                 ),
                 created_at=datetime(2025, 9, 1),
+            ),
+            Project(
+                slug="heart-disease-predictor",
+                title="Heart Disease Detection",
+                description=(
+                    "Machine-learning project that predicts the presence of heart disease from clinical features "
+                    "including age, cholesterol, resting blood pressure, ECG results, maximum heart rate, "
+                    "exercise-induced symptoms, ST depression, slope, major vessels, and thal value."
+                ),
+                long_description=(
+                    "Trained and compared Random Forest, SVM, kNN, Naive Bayes, Decision Tree, Logistic Regression, "
+                    "and XGBoost models on clinical features covering patients aged 15–80. The XGBoost model delivered "
+                    "strong early-risk detection performance with 94.6% accuracy, 90.6% recall, 88.4% precision, "
+                    "89.5% F1-score, 98.20% ROC–AUC, and 95.9% specificity."
+                ),
+                technologies=[
+                    "Python",
+                    "XGBoost",
+                    "Scikit-learn",
+                    "Pandas",
+                    "NumPy",
+                    "Machine Learning",
+                ],
+                github_url="https://github.com/Anikk02/heart-disease-predictor",
+                featured=True,
+                order=4,
+                status="completed",
+                category="Machine Learning / Healthcare",
+                metrics="94.6% accuracy • 98.20% ROC–AUC • 95.9% specificity",
+                problem_statement=(
+                    "Heart disease risk assessment depends on multiple clinical signals, making it difficult to "
+                    "evaluate consistently without a model that can compare patterns across patient data."
+                ),
+                solution=(
+                    "Compared seven classification algorithms across clinical features and selected XGBoost for its "
+                    "high-performing balance of recall, precision, F1-score, ROC–AUC, and specificity."
+                ),
+                lessons_learned=(
+                    "Comparing multiple models and tracking recall, specificity, and ROC–AUC alongside accuracy "
+                    "gives a more reliable view of a healthcare classifier's real-world performance."
+                ),
+                created_at=datetime(2025, 11, 1),
             ),
         ]
 
@@ -289,11 +331,11 @@ Use a smaller model (T5-small → distilT5) for faster inference. The safety lay
 
         # ── Resume ──────────────────────────────────────────────────────────
         resume = ResumeVersion(
-            file_name="AniketPaswan_Resume.pdf",
-            version="2026-07",
-            download_url="/attached_assets/AniketPaswan_1785457078665.pdf",
+            file_name="Aniket__Paswan.pdf",
+            version="2026-09",
+            download_url="/Aniket__Paswan.pdf",
             active=True,
-            created_at=datetime(2026, 7, 1),
+            created_at=datetime(2026, 9, 5),
         )
         db.add(resume)
         db.commit()
@@ -307,6 +349,23 @@ Use a smaller model (T5-small → distilT5) for faster inference. The safety lay
         raise
     finally:
         db.close()
+
+
+def seed_if_empty() -> bool:
+    """Seed portfolio content once, without overwriting existing records."""
+    db = SessionLocal()
+    try:
+        has_projects = db.query(Project).first() is not None
+        has_blogs = db.query(Blog).first() is not None
+        has_resume = db.query(ResumeVersion).first() is not None
+    finally:
+        db.close()
+
+    if has_projects or has_blogs or has_resume:
+        return False
+
+    seed()
+    return True
 
 
 if __name__ == "__main__":

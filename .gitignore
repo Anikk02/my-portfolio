@@ -47,3 +47,27 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+.env
+.replit 
+.replitignore 
+__pycache__
+.agents
+.agents/
+.local
+.venv
+replit.md
+uv.lock
+pnpm-lock.yaml
+pnpm-workspace.yaml
+pyproject.toml
+node_modules
+node_modules/
+
+artifacts/
+artifacts
+attached_assets
+attached_assets/
+tsconfig.base.json
+tsconfig.json
+package-lock.json

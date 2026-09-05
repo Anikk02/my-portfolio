@@ -1,11 +1,24 @@
 from datetime import datetime
 from typing import Any
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
+
+
+def to_camel(value: str) -> str:
+    head, *tail = value.split("_")
+    return head + "".join(part.capitalize() for part in tail)
+
+
+class APIModel(BaseModel):
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True,
+        from_attributes=True,
+    )
 
 
 # ── Projects ─────────────────────────────────────────────────────────────────
 
-class ProjectOut(BaseModel):
+class ProjectOut(APIModel):
     id: int
     slug: str
     title: str
@@ -25,12 +38,9 @@ class ProjectOut(BaseModel):
     lessons_learned: str | None = None
     created_at: datetime
 
-    model_config = {"from_attributes": True}
-
-
 # ── Blogs ─────────────────────────────────────────────────────────────────────
 
-class BlogOut(BaseModel):
+class BlogOut(APIModel):
     id: int
     slug: str
     title: str
@@ -42,12 +52,9 @@ class BlogOut(BaseModel):
     reading_time: int | None = None
     created_at: datetime
 
-    model_config = {"from_attributes": True}
-
-
 # ── Contact ───────────────────────────────────────────────────────────────────
 
-class ContactIn(BaseModel):
+class ContactIn(APIModel):
     name: str
     email: str
     company: str | None = None
@@ -55,14 +62,14 @@ class ContactIn(BaseModel):
     message: str
 
 
-class ContactOut(BaseModel):
+class ContactOut(APIModel):
     success: bool
     message: str
 
 
 # ── Resume ───────────────────────────────────────────────────────────────────
 
-class ResumeOut(BaseModel):
+class ResumeOut(APIModel):
     id: int
     file_name: str
     version: str
@@ -70,12 +77,9 @@ class ResumeOut(BaseModel):
     active: bool
     created_at: datetime
 
-    model_config = {"from_attributes": True}
-
-
 # ── GitHub (static) ──────────────────────────────────────────────────────────
 
-class GithubProfile(BaseModel):
+class GithubProfile(APIModel):
     username: str
     bio: str
     public_repos: int
@@ -88,7 +92,7 @@ class GithubProfile(BaseModel):
     top_languages: list[str]
 
 
-class GithubRepo(BaseModel):
+class GithubRepo(APIModel):
     name: str
     description: str
     url: str
@@ -100,36 +104,36 @@ class GithubRepo(BaseModel):
 
 # ── Search ───────────────────────────────────────────────────────────────────
 
-class SearchResults(BaseModel):
+class SearchResults(APIModel):
     projects: list[ProjectOut]
     blogs: list[BlogOut]
 
 
 # ── Newsletter ───────────────────────────────────────────────────────────────
 
-class NewsletterIn(BaseModel):
+class NewsletterIn(APIModel):
     email: str
     name: str | None = None
 
 
-class NewsletterOut(BaseModel):
+class NewsletterOut(APIModel):
     success: bool
     message: str
 
 
 # ── Analytics ────────────────────────────────────────────────────────────────
 
-class AnalyticsIn(BaseModel):
+class AnalyticsIn(APIModel):
     event: str
     page: str
     metadata: dict[str, Any] | None = None
 
 
-class AnalyticsOut(BaseModel):
+class AnalyticsOut(APIModel):
     success: bool
 
 
 # ── Health ───────────────────────────────────────────────────────────────────
 
-class HealthStatus(BaseModel):
+class HealthStatus(APIModel):
     status: str

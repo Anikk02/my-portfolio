@@ -145,7 +145,7 @@ export default function ProjectDetail() {
             <div>
               <h4 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-4">Technologies</h4>
               <div className="flex flex-wrap gap-2">
-                {project.technologies?.map(tech => (
+                {project.technologies?.map((tech: string) => (
                   <span key={tech} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white">
                     {tech}
                   </span>

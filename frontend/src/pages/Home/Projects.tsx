@@ -1,14 +1,27 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { useListFeaturedProjects, useListGithubRepos } from "@workspace/api-client-react";
+import {
+  getListFeaturedProjectsQueryKey,
+  getListGithubReposQueryKey,
+  useListFeaturedProjects,
+  useListGithubRepos,
+} from "@workspace/api-client-react";
+import type { GithubRepo, Project } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, ArrowRight, Star, GitFork } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { normalizeList } from "@/lib/normalize-list";
 
 export function Projects() {
-  const { data: projects = [], isLoading } = useListFeaturedProjects({ query: { enabled: true } });
-  const { data: repos = [], isLoading: reposLoading } = useListGithubRepos({ query: { enabled: true } });
+  const { data: projects = [], isLoading } = useListFeaturedProjects({
+    query: { enabled: true, queryKey: getListFeaturedProjectsQueryKey() },
+  });
+  const { data: repos = [], isLoading: reposLoading } = useListGithubRepos({
+    query: { enabled: true, queryKey: getListGithubReposQueryKey() },
+  });
+  const projectList = normalizeList<Project>(projects, "projects");
+  const repoList = normalizeList<GithubRepo>(repos, "repos");
 
   return (
     <section id="projects" className="scroll-mt-24 space-y-24">
@@ -44,9 +57,9 @@ export function Projects() {
               <div key={i} className="min-w-[320px] md:min-w-[400px] h-[450px] bg-[#111827] rounded-xl animate-pulse flex-shrink-0 snap-start border border-white/5" />
             ))}
           </div>
-        ) : projects.length > 0 ? (
+        ) : projectList.length > 0 ? (
           <div className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar">
-            {projects.map((project, idx) => (
+            {projectList.map((project, idx) => (
               <ProjectCard key={project.id} project={project} delay={idx * 0.1} />
             ))}
           </div>
@@ -77,8 +90,8 @@ export function Projects() {
             [1, 2, 3].map(i => (
               <div key={i} className="h-40 bg-[#111827] rounded-xl animate-pulse border border-white/5" />
             ))
-          ) : repos.length > 0 ? (
-            repos.slice(0, 6).map((repo, idx) => (
+          ) : repoList.length > 0 ? (
+            repoList.slice(0, 6).map((repo, idx) => (
               <RepoCard key={repo.name} repo={repo} delay={idx * 0.1} />
             ))
           ) : (
@@ -210,30 +223,38 @@ const FALLBACK_PROJECTS = [
   {
     id: 1,
     slug: "api-security-platform",
-    title: "API Security Platform",
-    description: "A robust middleware platform analyzing traffic to detect anomalies and block malicious requests in real-time.",
-    technologies: ["Python", "FastAPI", "Redis", "Docker"],
-    status: "Live",
-    githubUrl: "#",
-    liveUrl: "#"
+    title: "API Security System (Behavior-Based Middleware)",
+    description: "Behavior-based middleware that analyzes incoming requests to mitigate API abuse, credential stuffing, and business workflow attacks before business logic executes.",
+    technologies: ["FastAPI", "Python", "REST APIs", "Redis", "PostgreSQL", "SQLAlchemy", "React.js"],
+    status: "Present",
+    githubUrl: "https://github.com/Anikk02/api-security-system"
   },
   {
     id: 2,
     slug: "authentication-system",
     title: "Authentication System",
-    description: "Scalable OAuth2 and JWT-based authentication service built for microservices architecture with rate limiting.",
-    technologies: ["Node.js", "Express", "PostgreSQL", "JWT"],
+    description: "Modular authentication architecture with role-based authorization, secure password hashing, email verification, token refresh, and Redis caching.",
+    technologies: ["FastAPI", "PostgreSQL", "Redis", "JWT", "SQLAlchemy"],
     status: "Completed",
-    githubUrl: "#"
+    githubUrl: "https://github.com/Anikk02/FastAPI-Authentication-System"
   },
   {
     id: 3,
     slug: "mental-health-chatbot",
-    title: "Mental Health Chatbot",
-    description: "AI-powered conversational agent providing mental health support using NLP and sentiment analysis.",
-    technologies: ["Python", "TensorFlow", "MongoDB", "React"],
-    status: "In Progress",
-    githubUrl: "#"
+    title: "Mental Health Support Chatbot",
+    description: "AI-powered chatbot using a fine-tuned T5 Transformer for context-aware response generation, semantic retrieval, and safety-aware conversations.",
+    technologies: ["PyTorch", "Hugging Face", "Sentence Transformers", "NLP", "MongoDB", "NumPy"],
+    status: "Completed",
+    githubUrl: "https://github.com/Anikk02/Mental-Health-Support-Chatbot"
+  },
+  {
+    id: 4,
+    slug: "heart-disease-predictor",
+    title: "Heart Disease Detection",
+    description: "Machine-learning classifier comparing seven models to predict heart disease from clinical features, with XGBoost achieving 94.6% accuracy and 98.20% ROC–AUC.",
+    technologies: ["Python", "XGBoost", "Scikit-learn", "Pandas", "NumPy"],
+    status: "Completed",
+    githubUrl: "https://github.com/Anikk02/heart-disease-predictor"
   }
 ];
 

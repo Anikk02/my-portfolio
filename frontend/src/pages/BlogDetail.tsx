@@ -1,5 +1,6 @@
 import { useParams } from "wouter";
 import { useGetBlog, getGetBlogQueryKey } from "@workspace/api-client-react";
+import type { Blog } from "@workspace/api-client-react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Link } from "wouter";
@@ -65,7 +66,7 @@ export default function BlogDetail() {
         </h1>
 
         <div className="flex flex-wrap gap-2 mb-12">
-          {blog.tags?.map(tag => (
+          {blog.tags?.map((tag: string) => (
             <span key={tag} className="text-xs font-medium text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded border border-cyan-400/20">
               {tag}
             </span>

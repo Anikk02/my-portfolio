@@ -1,11 +1,19 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download, Play, Github, Linkedin, Twitter } from "lucide-react";
-import { SiPython, SiPostgresql, SiDocker, SiRedis, SiFastapi } from "react-icons/si";
-import { useGetLatestResume } from "@workspace/api-client-react";
+import { Download, Play, Github, Linkedin, Code2 } from "lucide-react";
+import { SiPython, SiPostgresql, SiRedis, SiFastapi, SiDocker } from "react-icons/si";
+import {
+  getGetLatestResumeQueryKey,
+  useGetLatestResume,
+} from "@workspace/api-client-react";
 
 export function Hero() {
-  const { data: resume } = useGetLatestResume({ query: { enabled: true } });
+  const { data: resume } = useGetLatestResume({
+    query: { enabled: true, queryKey: getGetLatestResumeQueryKey() },
+  });
+  const resumeUrl = resume?.downloadUrl
+    ? getBasePathUrl(resume.downloadUrl)
+    : `${import.meta.env.BASE_URL}Aniket__Paswan.pdf`;
 
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
@@ -42,7 +50,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-xl sm:text-2xl md:text-3xl font-semibold text-white/90 mb-6 flex items-center flex-wrap gap-2"
           >
-            Backend Engineer <span className="text-white/20">|</span> <span className="text-muted-foreground font-normal">Building Scalable Systems</span>
+            Backend Engineer <span className="text-white/20">|</span> <span className="text-muted-foreground font-normal">Secure, High-Performance APIs</span>
           </motion.h2>
           
           <motion.p
@@ -51,7 +59,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-lg text-muted-foreground mb-10 max-w-xl leading-relaxed"
           >
-            I architect and develop robust, high-performance infrastructure. Obsessed with clean code, efficient database design, and systems that don't wake you up at 3 AM.
+            Computer Science undergraduate focused on backend development, REST API design, API security, and authentication systems. I build secure, modular, and high-performance software with Python and FastAPI.
           </motion.p>
           
           <motion.div
@@ -64,7 +72,7 @@ export function Hero() {
               <a href="#projects">View My Work &rarr;</a>
             </Button>
             <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5" asChild>
-              <a href={resume?.downloadUrl || "/resume.pdf"} target="_blank">
+              <a href={resumeUrl} target="_blank" rel="noreferrer">
                 <Download className="w-4 h-4 mr-2" /> Resume
               </a>
             </Button>
@@ -79,14 +87,14 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.7 }}
             className="flex items-center gap-5"
           >
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-white transition-colors hover:scale-110 transform">
+            <a href="https://github.com/Anikk02" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-white transition-colors hover:scale-110 transform">
               <Github size={24} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors hover:scale-110 transform">
+            <a href="https://linkedin.com/in/anikk08" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors hover:scale-110 transform">
               <Linkedin size={24} />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-cyan-400 transition-colors hover:scale-110 transform">
-              <Twitter size={24} />
+            <a href="https://leetcode.com/u/Gwishin" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-cyan-400 transition-colors hover:scale-110 transform">
+              <Code2 size={24} />
             </a>
           </motion.div>
         </div>
@@ -159,6 +167,12 @@ export function Hero() {
       </motion.div>
     </section>
   );
+}
+
+function getBasePathUrl(url: string) {
+  if (!url.startsWith("/")) return url;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return `${basePath}${url}`;
 }
 
 function FloatingBadge({ icon, delay, className }: { icon: React.ReactNode, delay: number, className: string }) {

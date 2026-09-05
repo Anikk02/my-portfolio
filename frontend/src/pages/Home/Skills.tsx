@@ -1,44 +1,85 @@
 import { motion } from "framer-motion";
 import { 
-  SiPython, SiFastapi, SiNodedotjs, SiExpress, 
-  SiPostgresql, SiRedis, SiMongodb, 
-  SiDocker, SiLinux, SiGit,
-  SiReact, SiTypescript, SiHtml5, SiCss3
+  SiPython, SiFastapi, SiJsonwebtokens, SiSqlalchemy,
+  SiPostgresql, SiRedis, SiMongodb,
+  SiDocker, SiGit, SiGithub, SiGooglecolab,
+  SiReact, SiHtml5, SiCss, SiPandas, SiNumpy, SiPytorch,
+  SiHuggingface, SiScikitlearn
 } from "react-icons/si";
+import { FaJava } from "react-icons/fa6";
+import {
+  Binary,
+  BrainCircuit,
+  Code2,
+  Database,
+  Gauge,
+  Network,
+  Table2,
+  Workflow,
+} from "lucide-react";
 
 const SKILL_CATEGORIES = [
   {
-    name: "Backend",
+    name: "Languages",
     skills: [
       { name: "Python", icon: SiPython, color: "#3776AB", exp: "Advanced" },
-      { name: "FastAPI", icon: SiFastapi, color: "#009688", exp: "Advanced" },
-      { name: "Node.js", icon: SiNodedotjs, color: "#339933", exp: "Intermediate" },
-      { name: "Express", icon: SiExpress, color: "#FFFFFF", exp: "Intermediate" },
+      { name: "Java", icon: FaJava, color: "#ED8B00", exp: "Intermediate" },
+      { name: "SQL", icon: Table2, color: "#38BDF8", exp: "Advanced" },
     ]
   },
   {
-    name: "Database",
+    name: "Web & Frontend",
+    skills: [
+      { name: "HTML", icon: SiHtml5, color: "#E34F26", exp: "Intermediate" },
+      { name: "CSS", icon: SiCss, color: "#1572B6", exp: "Intermediate" },
+      { name: "React.js", icon: SiReact, color: "#61DAFB", exp: "Intermediate" },
+    ]
+  },
+  {
+    name: "Backend Development",
+    skills: [
+      { name: "FastAPI", icon: SiFastapi, color: "#009688", exp: "Advanced" },
+      { name: "REST APIs", icon: Network, color: "#22D3EE", exp: "Advanced" },
+      { name: "JWT Auth", icon: SiJsonwebtokens, color: "#D63AFF", exp: "Advanced" },
+      { name: "SQLAlchemy", icon: SiSqlalchemy, color: "#D71F00", exp: "Advanced" },
+      { name: "Async Programming", icon: Workflow, color: "#A78BFA", exp: "Intermediate" },
+      { name: "Caching", icon: Gauge, color: "#F59E0B", exp: "Intermediate" },
+      { name: "WebSockets", icon: Code2, color: "#34D399", exp: "Intermediate" },
+    ]
+  },
+  {
+    name: "Databases",
     skills: [
       { name: "PostgreSQL", icon: SiPostgresql, color: "#336791", exp: "Advanced" },
       { name: "Redis", icon: SiRedis, color: "#DC382D", exp: "Intermediate" },
       { name: "MongoDB", icon: SiMongodb, color: "#47A248", exp: "Intermediate" },
+      { name: "MS SQL Server", icon: Database, color: "#CC2927", exp: "Familiar" },
     ]
   },
   {
-    name: "DevOps & Cloud",
+    name: "Machine Learning",
     skills: [
-      { name: "Docker", icon: SiDocker, color: "#2496ED", exp: "Intermediate" },
-      { name: "Linux", icon: SiLinux, color: "#FCC624", exp: "Advanced" },
+      { name: "Pandas", icon: SiPandas, color: "#150458", exp: "Intermediate" },
+      { name: "NumPy", icon: SiNumpy, color: "#4D77CF", exp: "Intermediate" },
+      { name: "PyTorch", icon: SiPytorch, color: "#EE4C2C", exp: "Familiar" },
+      { name: "Hugging Face", icon: SiHuggingface, color: "#FFD21E", exp: "Beginner" },
+      { name: "Scikit-learn", icon: SiScikitlearn, color: "#F7931E", exp: "Intermediate" },
+      { name: "XGBoost", icon: BrainCircuit, color: "#10B981", exp: "Intermediate" },
+      { name: "Regression", icon: Binary, color: "#60A5FA", exp: "Intermediate" },
+      { name: "Classification", icon: BrainCircuit, color: "#C084FC", exp: "Intermediate" },
+    ]
+  },
+  {
+    name: "Tools & Core",
+    skills: [
       { name: "Git", icon: SiGit, color: "#F05032", exp: "Advanced" },
-      { name: "AWS", icon: SiGit, color: "#FF9900", exp: "Familiar" },
-    ]
-  },
-  {
-    name: "Frontend",
-    skills: [
-      { name: "React", icon: SiReact, color: "#61DAFB", exp: "Intermediate" },
-      { name: "TypeScript", icon: SiTypescript, color: "#3178C6", exp: "Intermediate" },
-      { name: "HTML/CSS", icon: SiHtml5, color: "#E34F26", exp: "Advanced" },
+      { name: "GitHub", icon: SiGithub, color: "#FFFFFF", exp: "Advanced" },
+      { name: "Docker", icon: SiDocker, color: "#2496ED", exp: "Intermediate" },
+      { name: "Colab", icon: SiGooglecolab, color: "#F9AB00", exp: "Intermediate" },
+      { name: "Data Structures", icon: Code2, color: "#F472B6", exp: "Strong foundation" },
+      { name: "Networks", icon: Network, color: "#38BDF8", exp: "Strong foundation" },
+      { name: "Operating Systems", icon: Workflow, color: "#A78BFA", exp: "Strong foundation" },
+      { name: "DBMS & OOP", icon: Database, color: "#34D399", exp: "Strong foundation" },
     ]
   }
 ];
@@ -58,7 +99,7 @@ export function Skills() {
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {SKILL_CATEGORIES.map((category, idx) => (
           <motion.div
             key={category.name}

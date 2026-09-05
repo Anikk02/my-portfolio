@@ -29,7 +29,7 @@ A full-stack, dark-tech portfolio website for **Aniket Paswan** (Backend Enginee
 | **Frontend** | React 18, Vite 7, TypeScript, Tailwind CSS, Framer Motion, Wouter      |
 | **UI**       | shadcn/ui (Radix UI primitives), Lucide React, React Icons              |
 | **API Hooks**| TanStack React Query + Orval-generated hooks from OpenAPI spec          |
-| **Package**  | pnpm workspaces (monorepo)                                              |
+| **Package**  | npm for the application                                                    |
 
 ---
 
@@ -115,8 +115,7 @@ workspace/
 ├── attached_assets/
 │   └── AniketPaswan_*.pdf            # Resume PDF (served for download)
 │
-├── package.json                      # Root workspace config
-├── pnpm-workspace.yaml               # Includes: artifacts/*, frontend, lib/*
+├── package.json                      # Root npm convenience scripts
 ├── tsconfig.base.json                # Shared TS compiler options
 └── README.md
 ```
@@ -128,7 +127,7 @@ workspace/
 | Tool       | Version  | Notes                                    |
 |------------|----------|------------------------------------------|
 | Node.js    | ≥ 20     | LTS recommended                          |
-| pnpm       | ≥ 9      | `npm install -g pnpm`                    |
+| npm        | ≥ 10     | Used for the standalone frontend        |
 | Python     | ≥ 3.11   | 3.13 used in production                  |
 | PostgreSQL | ≥ 15     | Local or cloud (Neon, Supabase, etc.)    |
 
@@ -152,42 +151,41 @@ workspace/
 ### 1. Install dependencies
 
 ```bash
-# JavaScript packages (frontend + shared libs)
-pnpm install
+# Frontend packages
+cd frontend
+npm install
+cd ..
 
 # Python packages (backend)
 pip install -r backend/requirements.txt
 ```
 
-### 2. Push the database schema
+### 2. Start the backend
 
 ```bash
-pnpm --filter @workspace/db run push
-```
-
-### 3. Seed the database with real resume data
-
-```bash
-python backend/seed.py
-```
-
-This inserts:
-- **3 projects** — API Security System, FastAPI Auth System, Mental Health Chatbot
-- **3 blog posts** — technical write-ups matching each project
-- **1 resume record** — links to the PDF in `attached_assets/`
-
-### 4. Start both services
-
-```bash
-# Terminal A — FastAPI backend (port 8080)
 cd backend
-uvicorn main:app --host 0.0.0.0 --port 8080 --reload
-
-# Terminal B — React frontend
-PORT=3000 BASE_PATH=/ pnpm --filter @workspace/frontend run dev
+/home/runner/workspace/.pythonlibs/bin/uvicorn main:app \
+  --host 0.0.0.0 \
+  --port 8080 \
+  --reload
 ```
 
-Open `http://localhost:3000` for the site, `http://localhost:8080/api/healthz` to confirm the API.
+On startup, FastAPI automatically:
+
+- Verifies that `DATABASE_URL` points to PostgreSQL
+- Creates any missing application tables
+- Inserts the portfolio seed data only when the project, blog, and resume tables are empty
+- Leaves existing data unchanged on later restarts
+
+### 3. Start the frontend
+
+```bash
+# In a second terminal
+cd frontend
+npm run dev
+```
+
+Open `http://localhost:5173` for the site, `http://localhost:8080/api/healthz` to confirm the API.
 
 ---
 
@@ -205,15 +203,16 @@ Open `http://localhost:3000` for the site, `http://localhost:8080/api/healthz` t
 | `newsletter_subscribers` | Email newsletter subscribers               |
 | `analytics_events`       | Page-view and interaction event log        |
 
-### Schema commands
+### Schema and seed commands
+
+Normal application startup creates missing tables automatically. The commands below are useful for explicit schema work or deliberately replacing the seed content:
 
 ```bash
-# Apply schema changes to the database
-pnpm --filter @workspace/db run push
-
-# Re-seed with fresh real data (clears then re-inserts)
+# Force-reseed with fresh resume data (clears projects, blogs, and resume records)
 python backend/seed.py
 ```
+
+Set `AUTO_SEED_DATA=false` to disable the safe first-start seed behavior.
 
 ---
 
@@ -268,11 +267,7 @@ All API calls use **TanStack React Query** hooks auto-generated from `lib/api-sp
 | `@workspace/api-zod`          | Orval-generated Zod schemas (kept for reference / migration) |
 | `@workspace/db`               | Drizzle ORM schema + `DATABASE_URL`-based client             |
 
-### Regenerate API client after spec changes
-
-```bash
-pnpm --filter @workspace/api-spec codegen
-```
+The checked-in API client is used directly by the frontend. Regeneration is not required for normal local development.
 
 ---
 
@@ -287,7 +282,7 @@ For other platforms (Railway, Render, Fly.io):
 
 ```bash
 # Build frontend
-pnpm --filter @workspace/frontend run build
+npm --prefix frontend run build
 # Serve frontend/dist/public as static files
 
 # Run backend
