@@ -17,6 +17,33 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),
+      // Only add workspace aliases in development
+      ...(isDev && {
+        '@workspace/api-client-react': path.resolve(
+          import.meta.dirname,
+          '..',
+          'lib',
+          'api-client-react',
+          'src',
+          'index.ts'
+        ),
+        '@workspace/api-zod': path.resolve(
+          import.meta.dirname,
+          '..',
+          'lib',
+          'api-zod',
+          'src',
+          'index.ts'
+        ),
+        '@workspace/db': path.resolve(
+          import.meta.dirname,
+          '..',
+          'lib',
+          'db',
+          'src',
+          'index.ts'
+        ),
+      }),
     },
     dedupe: ['react', 'react-dom'],
   },
@@ -25,17 +52,26 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
-    // Ensure dependencies are bundled properly
+    // In production, treat workspace packages as external
     rollupOptions: {
+      external: isDev ? [] : [
+        '@workspace/api-client-react',
+        '@workspace/api-zod',
+        '@workspace/db',
+      ],
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
+          'query-vendor': ['@tanstack/react-query'],
           'ui-vendor': [
             '@radix-ui/react-slot',
             '@radix-ui/react-dialog',
             '@radix-ui/react-dropdown-menu',
-            // Add other Radix UI components as needed
+            '@radix-ui/react-tooltip',
+            '@radix-ui/react-popover',
           ],
+          'animation-vendor': ['framer-motion'],
+          'form-vendor': ['react-hook-form', 'zod', '@hookform/resolvers'],
         },
       },
     },
@@ -70,6 +106,12 @@ export default defineConfig({
       'react-hook-form',
       'zod',
       '@hookform/resolvers',
+    ],
+    // Exclude workspace packages from optimization in production
+    exclude: isDev ? [] : [
+      '@workspace/api-client-react',
+      '@workspace/api-zod',
+      '@workspace/db',
     ],
   },
 });
