@@ -1,6 +1,6 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# compiled output
+# ==========================================
+# Core Portfolio & Frontend Ignores
+# ==========================================
 dist
 tmp
 out-tsc
@@ -8,10 +8,13 @@ out-tsc
 .expo
 .expo-shared
 
-# dependencies
+# Dependencies
 node_modules
+node_modules/
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
-# IDEs and editors
+# IDEs and Editors
 /.idea
 .project
 .classpath
@@ -19,15 +22,17 @@ node_modules
 *.launch
 .settings/
 *.sublime-workspace
-
-# IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# misc
+# Environment / Secrets
+.env
+.envrc
+
+# Miscellaneous Local Environment
 /.sass-cache
 /connect.lock
 /coverage
@@ -36,38 +41,92 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-
-# System Files
 .DS_Store
 Thumbs.db
-
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
-
-# Replit
 .cache/
 .local/
-
-.env
-.replit 
-.replitignore 
-__pycache__
 .agents
 .agents/
 .local
-.venv
-replit.md
-uv.lock
-pnpm-lock.yaml
-pnpm-workspace.yaml
-pyproject.toml
-node_modules
-node_modules/
-
 artifacts/
 artifacts
 attached_assets
 attached_assets/
-tsconfig.base.json
-tsconfig.json
-package-lock.json
+
+# ==========================================
+# Python Specific Ignores
+# ==========================================
+__pycache__/
+*.py[codz]
+*$py.class
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# C extensions & Packaging
+*.so
+.Python
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Logging & Testing
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Databases
+db.sqlite3
+db.sqlite3-journal
+
+# Framework configurations
+.pdm-python
+.pdm-build/
+__pypackages__/
+.abstra/
+.streamlit/secrets.toml
+tempCodeRunnerFile.py
+
+.replitignore
+.replit 
+replit.md 
+pnpm-lock.yaml 
+pnpm-workspace.yaml 
+tsconfig.base.json 
+tsconfig.json 
+uv.lock 
+pyproject.toml 
+.venv 
+__pycache__ 
