@@ -1,5 +1,0 @@
-- [Backend architecture](backend-architecture.md) — FastAPI (Python) in backend/, React+Vite in frontend/; artifacts/ are thin config wrappers only
-- [PostgreSQL pool](postgresql-pool.md) — SQLAlchemy uses a bounded psycopg2 QueuePool with pre-ping, recycling, keepalives, and graceful disposal
-- [Python env](python-env.md) — packages installed via installLanguagePackages(), land in .pythonlibs/; use full path /home/runner/workspace/.pythonlibs/bin/uvicorn in workflow commands
-- [SQLAlchemy reserved names](sqlalchemy-reserved.md) — "metadata" is reserved in DeclarativeBase; use a different attribute name and map to the real column name explicitly
-- [Frontend icon library](frontend-icon-library.md) — verify react-icons exports against the installed version; some Simple Icons names are unavailable
