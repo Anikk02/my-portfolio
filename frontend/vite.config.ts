@@ -6,32 +6,6 @@ import { defineConfig } from 'vite';
 const port = Number(process.env.PORT || 5173);
 const basePath = process.env.BASE_PATH || '/';
 const apiProxyTarget = process.env.API_PROXY_TARGET || 'http://127.0.0.1:8000';
-const isDev = process.env.NODE_ENV === 'development';
-
-// Base aliases that work in all environments
-const aliases: Record<string, string> = {
-  '@': path.resolve(import.meta.dirname, 'src'),
-  '@assets': path.resolve(import.meta.dirname, '..', 'attached_assets'),
-  '@tanstack/react-query': path.resolve(
-    import.meta.dirname,
-    'node_modules',
-    '@tanstack',
-    'react-query',
-  ),
-};
-
-// Only add the workspace alias in development
-// In production, the package will be resolved from node_modules
-if (isDev) {
-  aliases['@workspace/api-client-react'] = path.resolve(
-    import.meta.dirname,
-    '..',
-    'lib',
-    'api-client-react',
-    'src',
-    'index.ts',
-  );
-}
 
 export default defineConfig({
   base: basePath,
@@ -40,7 +14,10 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
-    alias: aliases,
+    alias: {
+      '@': path.resolve(import.meta.dirname, 'src'),
+      // Only keep essential aliases
+    },
     dedupe: ['react', 'react-dom'],
   },
   root: path.resolve(import.meta.dirname),
@@ -48,10 +25,6 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
-    // Add this to help with external package resolution
-    rollupOptions: {
-      external: [],
-    },
   },
   server: {
     port,
@@ -72,9 +45,5 @@ export default defineConfig({
     port,
     host: '0.0.0.0',
     allowedHosts: true,
-  },
-  // Add this to optimize dependency resolution
-  optimizeDeps: {
-    include: ['react', 'react-dom', '@tanstack/react-query'],
   },
 });
