@@ -128,3 +128,4 @@ uv.lock
 pyproject.toml 
 .venv 
 __pycache__ 
+package-lock.json
