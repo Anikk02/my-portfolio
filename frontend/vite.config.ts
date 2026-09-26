@@ -16,6 +16,21 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),
+      '@assets': path.resolve(import.meta.dirname, '..', 'attached_assets'),
+      '@tanstack/react-query': path.resolve(
+        import.meta.dirname,
+        'node_modules',
+        '@tanstack',
+        'react-query',
+      ),
+      '@workspace/api-client-react': path.resolve(
+        import.meta.dirname,
+        '..',
+        'lib',
+        'api-client-react',
+        'src',
+        'index.ts',
+      ),
     },
     dedupe: ['react', 'react-dom'],
   },
@@ -38,6 +53,12 @@ export default defineConfig({
     },
     fs: {
       strict: true,
+      // Allows Vite to safely step outside the frontend folder and read your workspace library files
+      allow: [
+        path.resolve(import.meta.dirname),
+        path.resolve(import.meta.dirname, '..', 'lib'),
+        path.resolve(import.meta.dirname, '..', 'attached_assets'),
+      ],
     },
   },
   preview: {
